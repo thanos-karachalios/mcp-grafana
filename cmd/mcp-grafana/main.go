@@ -76,6 +76,7 @@ var categoryDescription = map[string]string{
 	"api":           "API: Make authenticated HTTP requests to any Grafana API endpoint with optional jq-style response filtering.",
 	"config":        "Config: Generate operator-facing configuration snippets (e.g. Alloy label-enforcement pipelines).",
 	"provisioning":  "Provisioning: List provisioning repositories (e.g. git-sync sources) to discover repository slugs for use with rendering tools.",
+	"insight-cell":  "Insight Cell: Render data you've gathered as an interactive 'insight cell' (a core panel, logs, trace, or a synthesis view: worklist/rca/rulediff/timeline/cost) via an MCP App.",
 }
 
 // disabledTools indicates whether each category of tools should be disabled.
