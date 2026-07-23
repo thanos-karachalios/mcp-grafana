@@ -87,7 +87,7 @@ type disabledTools struct {
 	dashboard, folder, oncall, asserts, sift, admin,
 	pyroscope, navigation, proxied, annotations, rendering, cloudwatch, write,
 	snapshot, examples, clickhouse, snowflake, graphite,
-	runpanelquery, athena, plugin, api, config, provisioning bool
+	runpanelquery, athena, plugin, api, config, provisioning, insightcell bool
 }
 
 // Configuration for the Grafana client.
@@ -106,7 +106,7 @@ type grafanaConfig struct {
 }
 
 func (dt *disabledTools) addFlags() {
-	flag.StringVar(&dt.enabledTools, "enabled-tools", "search,datasource,incident,prometheus,loki,alerting,dashboard,folder,oncall,asserts,sift,pyroscope,navigation,proxied,annotations,rendering,snapshot,plugin,api,config,provisioning", "A comma separated list of tools enabled for this server. Can be overwritten entirely or by disabling specific components, e.g. --disable-search.")
+	flag.StringVar(&dt.enabledTools, "enabled-tools", "search,datasource,incident,prometheus,loki,alerting,dashboard,folder,oncall,asserts,sift,pyroscope,navigation,proxied,annotations,rendering,snapshot,plugin,api,config,provisioning,insight-cell", "A comma separated list of tools enabled for this server. Can be overwritten entirely or by disabling specific components, e.g. --disable-search.")
 	flag.BoolVar(&dt.search, "disable-search", false, "Disable search tools")
 	flag.BoolVar(&dt.datasource, "disable-datasource", false, "Disable datasource tools")
 	flag.BoolVar(&dt.incident, "disable-incident", false, "Disable incident tools")
@@ -140,6 +140,7 @@ func (dt *disabledTools) addFlags() {
 	flag.BoolVar(&dt.api, "disable-api", false, "Disable API tools")
 	flag.BoolVar(&dt.config, "disable-config", false, "Disable config-generation tools")
 	flag.BoolVar(&dt.provisioning, "disable-provisioning", false, "Disable provisioning tools")
+	flag.BoolVar(&dt.insightcell, "disable-insight-cell", false, "Disable insight-cell rendering tools (MCP App render surface)")
 }
 
 func (gc *grafanaConfig) addFlags() {
@@ -199,6 +200,7 @@ func (dt *disabledTools) toolEntries() []toolEntry {
 		{func(mcp *server.MCPServer) { tools.AddAPITools(mcp, enableWriteTools) }, dt.api, "api"},
 		{tools.AddConfigTools, dt.config, "config"},
 		{tools.AddProvisioningTools, dt.provisioning, "provisioning"},
+		{tools.AddInsightCellTools, dt.insightcell, "insight-cell"},
 	}
 }
 
